@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEA Salon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #aaa674;
+            color: #3b3a3a;
+        }
+        header {
+            background-color: #c5a908;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        header p {
+            margin: 0;
+            font-size: 18px;
+            font-style: italic;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+        }
+        nav a {
+            color: #eaeedd;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .services, .contact, .reviews, .review-form {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .services h2, .contact h2, .reviews h2, .review-form h2 {
+            color: #333;
+            text-align: center;
+        }
+        .service-list, .contact-list, .review-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .service-list li, .contact-list li, .review-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .review-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .review-form input, .review-form textarea, .review-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .social-icons img {
+            width: 30px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SEA Salon</h1>
+        <p>Beauty and Elegance Redefined</p>
+    </header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+        <a href="#">Gallery</a>
+    </nav>
+    <div class="container">
+        <section class="services">
+            <h2>Our Services</h2>
+            <ul class="service-list">
+                <li>Haircuts and Styling</li>
+                <li>Manicure and Pedicure</li>
+                <li>Facial Treatments</li>
+            </ul>
+        </section>
+        <section class="contact">
+            <h2>Contact Us</h2>
+            <ul class="contact-list">
+                <li>Thomas - Phone Number: 08123456789</li>
+                <li>Sekar - Phone Number: 08164829372</li>
+            </ul>
+        </section>
+        <section class="review-form">
+            <h2>Leave a Review</h2>
+            <form id="reviewForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="rating">Rating:</label>
+                <select id="rating" required>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+                <label for="comment">Comment:</label>
+                <textarea id="comment" rows="4" required></textarea>
+                <button type="submit">Submit Review</button>
+            </form>
+        </section>
+        <section class="reviews">
+            <h2>Customer Reviews</h2>
+            <ul class="review-list" id="reviewList">
+                <!-- Reviews will be displayed here -->
+            </ul>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2023 SEA Salon. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const rating = document.getElementById('rating').value;
+            const comment = document.getElementById('comment').value;
+            
+            // Create review object
+            const review = {
+                name: name,
+                rating: rating,
+                comment: comment
+            };
+            
+            // Get existing reviews from local storage or create a new array if none exist
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            
+            // Add new review to the array
+            reviews.push(review);
+            
+            // Save updated reviews array to local storage
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            
+            // Display reviews
+            displayReviews();
+            
+            // Clear form
+            document.getElementById('reviewForm').reset();
+        });
+
+        function displayReviews() {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            const reviewList = document.getElementById('reviewList');
+            reviewList.innerHTML = '';
+            
+            reviews.forEach(review => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${review.name}</strong> (${review.rating} Stars) - ${review.comment}`;
+                reviewList.appendChild(li);
+            });
+        }
+
+        // Display reviews on page load
+        displayReviews();
+    </script>
+</body>
+</html>
